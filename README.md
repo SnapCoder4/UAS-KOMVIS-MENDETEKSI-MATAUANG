@@ -1,4 +1,4 @@
-# Rupiah Vision — Deteksi & Identifikasi Nominal Mata Uang Rupiah
+# Rupiah Vision - Deteksi & Identifikasi Nominal Mata Uang Rupiah
 
 Aplikasi _computer vision_ sederhana untuk mendeteksi dan mengenali nominal uang kertas Rupiah secara _realtime_ lewat webcam. Dibuat untuk UAS mata kuliah **TIF24 - Komputer Vision**.
 
@@ -35,7 +35,7 @@ rupiah-vision/
 ├── requirements.txt
 ├── .gitignore         # mengecualikan folder gambar mentah dari GitHub
 ├── models/            # tempat model terlatih (model.pkl)
-├── data/              # dataset.csv untuk training
+├── data/              # tempat dataset.csv & folder gambar (dibuat saat training)
 └── README.md
 ```
 
@@ -75,7 +75,7 @@ gambar, lalu mengubahnya jadi feature vector memakai `feature_extract.py`.
 Jumlah gambar per nominal dibatasi lewat `MAKS_PER_NOMINAL` di file itu (default 50).
 
 > Folder `data/dataset/` (gambar mentah) sengaja diabaikan oleh `.gitignore`,
-> jadi TIDAK ikut ter-upload ke GitHub. Yang dipakai program cukup `dataset.csv`.
+> jadi TIDAK ikut ter-upload ke GitHub. Untuk demo, program cukup memakai `models/model.pkl`.
 
 > Kalau model belum dilatih, program tetap bisa jalan memakai **mode tebakan warna**
 > (dummy) supaya pipeline bisa didemokan saat presentasi.
@@ -103,10 +103,13 @@ Karena tiap tahap pipeline berada di file terpisah, masing-masing anggota bisa m
 Gambar uang yang dipakai untuk training berasal dari dataset publik di Kaggle:
 `https://www.kaggle.com/datasets/anidwiastuti/rupiah-banknotes-dataset`
 
-Folder gambar mentah TIDAK disertakan di repo ini (ukurannya besar dan diabaikan
-oleh `.gitignore`). Yang disertakan cukup `data/dataset.csv` (hasil olahan) dan
-`models/model.pkl` (model terlatih), sehingga program bisa langsung dijalankan
-tanpa perlu training ulang.
+Folder gambar mentah dan `dataset.csv` TIDAK disertakan di repo ini (gambar
+ukurannya besar). Yang disertakan cukup `models/model.pkl` (model terlatih),
+sehingga program bisa langsung dijalankan untuk demo tanpa perlu training ulang.
+
+Kalau ingin melatih ulang model, unduh gambar dari link Kaggle di atas, taruh di
+`data/dataset/<nominal>/`, lalu jalankan `python build_dataset.py` dan
+`python main.py train`. Kedua langkah itu akan membuat ulang `dataset.csv` dan `model.pkl`.
 
 ## Catatan Pengembangan
 
