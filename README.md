@@ -1,6 +1,6 @@
 # Rupiah Vision — Deteksi & Identifikasi Nominal Mata Uang Rupiah
 
-Aplikasi _computer vision_ sederhana untuk mendeteksi dan mengenali nominal uang kertas Rupiah secara _realtime_ lewat webcam. Dibuat untuk UAS mata kuliah **TIF24 - Komputer Vision**.
+Aplikasi *computer vision* sederhana untuk mendeteksi dan mengenali nominal uang kertas Rupiah secara *realtime* lewat webcam. Dibuat untuk UAS mata kuliah **TIF24 - Komputer Vision**.
 
 Proyek ini sengaja dibuat **modular tapi sederhana**: setiap tahap pipeline ada di satu file Python sendiri, semua file berada di folder utama (flat), dan saling dihubungkan dari `main.py`. Tidak memakai struktur enterprise (`src/`, `services/`, dll), supaya mudah dipahami dan dipresentasikan per anggota.
 
@@ -16,7 +16,7 @@ Penjelasan tiap tahap:
 1. **Webcam** — `cam.py` membaca frame dari kamera.
 2. **Preprocessing** — `preprocess.py` melakukan resize, grayscale, Gaussian blur, dan thresholding (binerisasi).
 3. **Segmentation** — `segmentation.py` mendeteksi tepi (Canny), mencari kontur, lalu meng-crop uang dari background.
-4. **Feature Extraction** — `feature_extract.py` mengubah gambar uang menjadi _feature vector_ (warna, histogram, bentuk, tekstur).
+4. **Feature Extraction** — `feature_extract.py` mengubah gambar uang menjadi *feature vector* (warna, histogram, bentuk, tekstur).
 5. **Classification** — `classifier.py` memprediksi nominal uang dari feature vector (KNN).
 6. **Output** — `main.py` + `helper.py` menggambar kotak dan menampilkan nominal di layar.
 
@@ -90,11 +90,11 @@ Arahkan uang ke kamera. Tekan **`q`** untuk keluar.
 
 ## Pembagian Tugas & Kontribusi
 
-| Anggota               | NIM      | File                                          | Tanggung Jawab                                                                                                                              |
-| --------------------- | -------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Christopher Haris** | 32230163 | `cam.py`, `preprocess.py`, `build_dataset.py` | Webcam capture, resize, Gaussian blur, thresholding, dan penyiapan dataset (mengubah folder gambar menjadi dataset.csv)                     |
-| **Nicholas Agustine** | 32230146 | `segmentation.py`, `feature_extract.py`       | Edge detection, contour detection, crop uang dari background, lalu ekstraksi fitur warna, histogram, bentuk, tekstur menjadi feature vector |
-| **Valwa Giraldy**     | 32230178 | `classifier.py`, `main.py`                    | Klasifikasi nominal, menampilkan hasil, menggabungkan seluruh modul jadi satu aplikasi                                                      |
+| Anggota | NIM | File | Tanggung Jawab |
+|---------|-----|------|----------------|
+| **Christopher Haris** | 32230163 | `cam.py`, `preprocess.py`, `build_dataset.py` | Webcam capture, resize, Gaussian blur, thresholding, dan penyiapan dataset (mengubah folder gambar menjadi dataset.csv) |
+| **Nicholas Agustine** | 32230146 | `segmentation.py`, `feature_extract.py` | Edge detection, contour detection, crop uang dari background, lalu ekstraksi fitur warna, histogram, bentuk, tekstur menjadi feature vector |
+| **Valwa Giraldy** | 32230178 | `classifier.py`, `main.py` | Klasifikasi nominal, menampilkan hasil, menggabungkan seluruh modul jadi satu aplikasi |
 
 Karena tiap tahap pipeline berada di file terpisah, masing-masing anggota bisa mempresentasikan bagiannya sendiri sebagai nilai individu.
 
