@@ -1,58 +1,56 @@
 import cv2
+import numpy as np
 
 
 def deteksi_tepi(biner):
-    """Mendeteksi tepi objek dengan algoritma Canny."""
-    return cv2.Canny(biner, 50, 150)
+    tepi = cv2.Canny(biner, 30, 100)
+    kernel = np.ones((5, 5), np.uint8)
+    tepi = cv2.dilate(tepi, kernel, iterations=1)
+    tepi = cv2.morphologyEx(tepi, cv2.MORPH_CLOSE, kernel)
+    return tepi
 
 
 def cari_kontur(tepi):
-    """
-    Mencari semua kontur (garis tepi tertutup) pada gambar tepi.
-    Mengembalikan daftar kontur.
-    """
     kontur, _ = cv2.findContours(
         tepi, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
     )
     return kontur
 
 
-def ambil_kontur_terbesar(kontur):
-    """
-    Memilih kontur dengan area paling besar.
-    Asumsinya, objek terbesar di layar adalah uang.
-    Mengembalikan None kalau tidak ada kontur.
-    """
-    if len(kontur) == 0:
+def ambil_kontur_uang(kontur, area_minimal=1500):
+    kandidat = []
+    for k in kontur:
+        area = cv2.contourArea(k)
+        if area < area_minimal:
+            continue
+
+        x, y, w, h = cv2.boundingRect(k)
+        if h == 0:
+            continue
+        rasio = w / h
+
+        if 1.6 <= rasio <= 3.0:
+            kandidat.append((area, k))
+
+    if len(kandidat) == 0:
         return None
-    return max(kontur, key=cv2.contourArea)
+
+    kandidat.sort(key=lambda t: t[0], reverse=True)
+    return kandidat[0][1]
 
 
-def crop_objek(frame, kontur_terbesar, area_minimal=3000):
-    """
-    Memotong (crop) uang dari background memakai bounding box.
-    Input  : frame berwarna + kontur terbesar
-    Output : gambar hasil crop, atau None kalau objek terlalu kecil.
-    """
-    if kontur_terbesar is None:
+def crop_objek(frame, kontur_uang):
+    if kontur_uang is None:
         return None, None
 
-    if cv2.contourArea(kontur_terbesar) < area_minimal:
-        return None, None
-
-    x, y, w, h = cv2.boundingRect(kontur_terbesar)
+    x, y, w, h = cv2.boundingRect(kontur_uang)
     crop = frame[y:y + h, x:x + w]
     return crop, (x, y, w, h)
 
 
 def jalankan_segmentasi(frame, biner):
-    """
-    Menggabungkan seluruh proses segmentasi.
-    Input  : frame berwarna + gambar biner dari preprocessing
-    Output : (gambar_crop, kotak) -> kotak = (x, y, w, h) untuk digambar
-    """
     tepi = deteksi_tepi(biner)
     kontur = cari_kontur(tepi)
-    terbesar = ambil_kontur_terbesar(kontur)
-    crop, kotak = crop_objek(frame, terbesar)
+    terpilih = ambil_kontur_uang(kontur)
+    crop, kotak = crop_objek(frame, terpilih)
     return crop, kotak
