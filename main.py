@@ -1,5 +1,4 @@
 import sys
-
 import cam
 import preprocess
 import segmentation
@@ -54,7 +53,7 @@ def mode_realtime():
         # 5. CLASSIFICATION
         hasil = classifier.prediksi(vektor, model)
 
-        # --- VOTING: haluskan hasil dari 15 frame terakhir ---
+        # haluskan hasil dari 15 frame terakhir
         if vektor is not None:
             riwayat.append(hasil)
 
