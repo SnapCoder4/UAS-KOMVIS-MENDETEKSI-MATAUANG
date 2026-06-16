@@ -1,4 +1,4 @@
-# Rupiah Vision — Deteksi & Identifikasi Nominal Mata Uang Rupiah
+# Rupiah Vision - Deteksi & Identifikasi Nominal Mata Uang Rupiah
 
 Aplikasi *computer vision* sederhana untuk mendeteksi dan mengenali nominal uang kertas Rupiah secara *realtime* lewat webcam. Dibuat untuk UAS mata kuliah **TIF24 - Komputer Vision**.
 
